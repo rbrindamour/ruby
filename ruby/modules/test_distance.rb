@@ -4,30 +4,10 @@ require 'time'
 
 # SETUP
 #directory = 'C:\\Temp\\CardioTrainer_2011-01-06T21-42-42Z.txt'
-puts "please enter the file to read from: "
-directory = gets.chomp 
-# directory = '/home/rodb/Documents/Sports/Sports Tracker/rb2012-11-16-2.gpx'
-polar_hrm = File.open(directory,'r')
+directory = 'C:\\Temp\\CardioTrainer_2011-01-30T11-32-22Z.gpx'
 
- line_array = []
-
-polar_hrm.each {|line|
-   if line =~ /Params/  then puts "line is #{line} length = #{line.chomp.length}"
-   else
-      line_array = line.split("=")
-      puts line_array
-      cmd_name = line_array[0]
-      if line_array[1].to_s =~ /:/ then puts "Time is  #{cmd_name  + " = " +  Time.parse(line_array[1].to_s) }"
-          puts "#{eval(cmd_name  + " = " +  Time.parse(line_array[1].to_s))}"
-      else
-         puts cmd_name  + " = " +  line_array[1].to_s
-         puts "#{eval(cmd_name  + " = " +  line_array[1].to_s)}"
-      end
-     puts "variable is #{eval(cmd_name)}"
-   end}
 # output file
-=begin
-  $tempfile=File.open("/home/rodb/Documents/Sports/Sports Tracker/dm_elements2012-11-16.txt",  'w')   
+  $tempfile=File.open("C:\\Temp\\dm_elements.txt",  'w')   
    
      def distance(lat1,long1,lat2,long2)
         #convert from degrees to radians
@@ -70,7 +50,7 @@ polar_hrm.each {|line|
            a , b =  elem.attributes['lat'], elem.attributes['lon']
            $lat2, $lon2 =  a.to_f,  b.to_f
            $time2 = parse_time(elem.elements['time'].to_a.to_s)
-          $tempfile.puts "Distance\tElevation\tHR\tTime"
+          $tempfile.puts "Distance\tElevation\tTime"
            first_time = false
         else  
            $lat1, $lon1 = $lat2, $lon2
@@ -78,14 +58,11 @@ polar_hrm.each {|line|
            $lat2, $lon2 =  a.to_f,  b.to_f
            dist = distance($lat1,$lon1,$lat2,$lon2)
            elevt = elem.elements['ele'].to_a
-           ext = elem.elements['extensions'].to_a
-           hr = ext[1].elements['gpxtpx_hr'].to_a
            time1 = $time2
            $time2 = parse_time(elem.elements['time'].to_a.to_s)
            elapsed_time = $time2 - time1
-           totaldistance += dist
-           $tempfile.puts "#{dist}\t#{elevt[0]}\t#{hr}\t#{elapsed_time}"
+             totaldistance += dist
+          $tempfile.puts "#{dist}\t#{elevt[0]}\t#{elapsed_time}"
          end
 }
    $tempfile.puts totaldistance
-=end
