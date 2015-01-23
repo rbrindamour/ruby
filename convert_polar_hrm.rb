@@ -5,26 +5,49 @@ require 'time'
 # SETUP
 #directory = 'C:\\Temp\\CardioTrainer_2011-01-06T21-42-42Z.txt'
 puts "please enter the file to read from: "
-directory = gets.chomp 
+directory = gets.chomp
+#   /home/rodb/Documents/Sports/Rod Brindamour/2001/01031502.hrm
 # directory = '/home/rodb/Documents/Sports/Sports Tracker/rb2012-11-16-2.gpx'
+
+special_char = /\[|\]/
+
+     def parse_time(time_string)
+       temp = Time.parse(time_string)
+     end
+     
+
 polar_hrm = File.open(directory,'r')
 
  line_array = []
 
-polar_hrm.each {|line|
-   if line =~ /Params/  then puts "line is #{line} length = #{line.chomp.length}"
-   else
-      line_array = line.split("=")
+polar_hrm.each {|line_in|
+   line = line_in.chomp.downcase
+   line_array = line.split("=")
       puts line_array
       cmd_name = line_array[0]
-      if line_array[1].to_s =~ /:/ then puts "Time is  #{cmd_name  + " = " +  Time.parse(line_array[1].to_s) }"
-          puts "#{eval(cmd_name  + " = " +  Time.parse(line_array[1].to_s))}"
+      puts cmd_name, cmd_name.class
+   if line.match(special_char) then 
+         if line == 'inttimes' then 
+               Time,HR,HR_min,HR_avg,HR_max = line.gsub(' ',",")
+            end
+            puts "line is #{line.gsub(special_char,"")} length = #{line.length}"
+   else
+    if line == ""  then puts "blank line"
+     else
+      if line_array[1].to_s =~ /:/ then puts "Time is  "
+         #puts cmd_name, line_array[1]  #.to_s
+         ##{cmd_name  + " = " +  Time.parse(line_array[1].to_s) }"
+         #time_val = line_array[1]
+         #puts line_array[1].class
+         # puts "#{eval(cmd_name  + " = " +  parse_time(line_array[1]))}"
       else
          puts cmd_name  + " = " +  line_array[1].to_s
          puts "#{eval(cmd_name  + " = " +  line_array[1].to_s)}"
       end
-     puts "variable is #{eval(cmd_name)}"
+   end
+     #puts "variable is #{eval(cmd_name)}"
    end}
+
 # output file
 =begin
   $tempfile=File.open("/home/rodb/Documents/Sports/Sports Tracker/dm_elements2012-11-16.txt",  'w')   
