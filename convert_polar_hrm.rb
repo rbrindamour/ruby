@@ -5,8 +5,8 @@ require 'time'
 # SETUP
 #directory = 'C:\\Temp\\CardioTrainer_2011-01-06T21-42-42Z.txt'
 puts "please enter the file to read from: "
-directory = gets.chomp
-#   /home/rodb/Documents/Sports/Rod Brindamour/2001/01031502.hrm
+# directory = gets.chomp
+ directory =  '/home/rodb/Documents/Sports/Rod Brindamour/2001/01031502.hrm'
 # directory = '/home/rodb/Documents/Sports/Sports Tracker/rb2012-11-16-2.gpx'
 
 special_char = /\[|\]/
@@ -17,36 +17,43 @@ special_char = /\[|\]/
      
 
 polar_hrm = File.open(directory,'r')
-
+row =1
  line_array = []
-
+ section = ""
 polar_hrm.each {|line_in|
    line = line_in.chomp.downcase
    line_array = line.split("=")
-      puts line_array
+      #puts line_array
       cmd_name = line_array[0]
-      puts cmd_name, cmd_name.class
+      #puts cmd_name, cmd_name.class
    if line.match(special_char) then 
-         if line == 'inttimes' then 
-               Time,HR,HR_min,HR_avg,HR_max = line.gsub(' ',",")
-            end
-            puts "line is #{line.gsub(special_char,"")} length = #{line.length}"
+         if line == '[inttimes]' then section = 'inttimes'
+       puts "line is #{line.gsub(special_char,"")} length = #{line.length}"
+    end
    else
-    if line == ""  then puts "blank line"
-     else
-      if line_array[1].to_s =~ /:/ then puts "Time is  "
-         #puts cmd_name, line_array[1]  #.to_s
-         ##{cmd_name  + " = " +  Time.parse(line_array[1].to_s) }"
-         #time_val = line_array[1]
-         #puts line_array[1].class
-         # puts "#{eval(cmd_name  + " = " +  parse_time(line_array[1]))}"
+      if section == 'inttimes' && row == 1
+          #puts  line.gsub(' ',",").to_a
+               time_val = parse_time(line[0,9])
+               hr_val,hr_min,hr_avg,hr_max = line[10,line.length-1].split(" ")
+               puts time_val, hr_max
+      end
+      if section == 'inttimes' && row == 2
+          #puts  line.gsub(' ',",").to_a
+               flags,rec_time,rec_hr,speed,cadence,altitude = line.split(" ")
+               #puts altitude
+      end
+       if line == ""  then puts "blank line"; section = ""
+          else
+            if line_array[1].to_s =~ /:/ then puts "Time is  "
       else
          puts cmd_name  + " = " +  line_array[1].to_s
          puts "#{eval(cmd_name  + " = " +  line_array[1].to_s)}"
       end
    end
      #puts "variable is #{eval(cmd_name)}"
+     row+-1
    end}
+puts polar_hrm
 
 # output file
 =begin
