@@ -12,7 +12,7 @@ require 'time'
 special_char = /\[|\]/
 
      def parse_time(time_string)
-       temp = Time.parse(time_string)
+       temp = Time.parse(time_string).to_s
      end
      
 
@@ -32,11 +32,9 @@ section = ""
 $row = 0
 polar_hrm.each {|line_in|
    line = line_in.chomp.downcase
-   line_array = line.split("=")
   # puts "section is #{section} row is #{$row}"
       #puts line_array
-      cmd_name = line_array[0]
-      #puts cmd_name, cmd_name.class
+       #puts cmd_name, cmd_name.class
    if line.match(special_char) then
           section = line.gsub(special_char,"")
          puts "found section #{section}"
@@ -44,11 +42,24 @@ polar_hrm.each {|line_in|
          $lap = 0
    end
    case section
+             when 'params'
+                 line_array = line.split("=")
+                cmd_name = line_array[0]
+               if $row >= 1 then
+                   if line_array[1].to_s =~ /:/ then puts valu = Time.parse(line_array[1]) # ; eval(cmd_name + " = " + valu.to_s)
+                 else
+                      #puts cmd_name  + " = " +  line_array[1].to_s
+                    if line != "" then puts "#{eval(cmd_name  + " = " +  line_array[1].to_s)}"
+                    end
+                   end
+               end
+                $row += 1
+           
              when 'note'
                 note = []
                 puts "note row  #{$row}"
                 if $row >= 1 && (line != "")  then puts note[$row] = line;
-           end
+                end
                $row += 1
              when 'inttimes' 
                     puts "inside when row is #{$row}"
@@ -83,43 +94,43 @@ polar_hrm.each {|line_in|
                 intnotes = []
                 puts "intnotes row  #{$row}"
                 if $row >= 1 && (line != "") then puts intnotes[$row] = line;
-           end
+                end
                $row += 1
                when 'extradata'
                 extradata = []
                 puts "extradata row  #{$row}"
                 if $row >= 1 && (line != "") then puts extradata[$row] = line;
-           end
+                end
                $row += 1
                when 'summary-123'
                 summary_123 = []
                 puts "summary_123 row  #{$row}"
                 if $row >= 1 && (line != "") then puts summary_123[$row] = line;
-           end
+                end
                $row += 1
                when 'summary_th'
                 summary_th = []
                 puts "summary_th row  #{$row}"
                 if $row >= 1 && (line != "") then puts summary_th[$row] = line;
-           end
+                end
                $row += 1
                when 'hrzones'
                 hrzones = []
                 puts "hrzones row  #{$row}"
                 if $row >= 1 && (line != "") then puts hrzones[$row] = line;
-           end
+                end
                $row += 1
                when 'swaptimes'
                 swaptimes = []
                 puts "swaptimes row  #{$row}"
                 if $row >= 1 && (line != "") then puts swaptimes[$row] = line;
-           end
+                end
                $row += 1
                when 'hrdata'
                 hrdata = []
                 puts "hrdata row  #{$row}"
                 if $row >= 1 && (line != "") then puts hrdata[$row] = line;
-           end
+                end
                $row += 1
           
                
