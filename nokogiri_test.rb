@@ -13,6 +13,7 @@ cardio = File.open("/home/rodb/Documents/Sports/Sports Tracker/rb2012-11-16-T.gp
 #puts Nokogiri.methods
 
 cardio_content = Nokogiri::XML(cardio)
+cardio_content.elements.each {|x| puts x,"==========="}
 # elements = Nokogiri::XML::Element.name #(cardio_content)
 
 puts cardio_content.elements.respond_to?('children')
