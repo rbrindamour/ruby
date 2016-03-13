@@ -1,4 +1,0 @@
-ruby
-====
-
-shared Ruby
