@@ -1,13 +1,12 @@
-puts RUBY_VERSION  
   def isPrime(number)
 #     puts number
     if number == 0 or number == 1
       return false
     end
- #   if number % 5 == 0
- #     return false
- #   end
-    i = 3
+#    if number % 5 == 0
+#      return false
+#    end
+    i = 2
     limit = number / i
 #    puts "limit is = #{limit}"
     while i <= limit
@@ -17,20 +16,18 @@ puts RUBY_VERSION
 #        puts "#{number} is Not prime!"
         return false
       end
-      i += 2
+      i += 1
       limit = number / i
     end
 #    puts "#{number} is prime!"
     return true
-  end #isPrime
-
-  #print("Please enter the number of primes to stop ");instring = gets
-    primes_limit = 1000000 #Integer(instring)
+  end
   start_time = Time.now()
+  puts RUBY_VERSION
   puts "Start time is #{start_time}"
   n = 3
-  count = 1
-  while n <= primes_limit
+  count = 0
+  while n < 1000000
    if isPrime(n)
      count += 1
 #     puts "Prime #{n}"
@@ -39,4 +36,3 @@ puts RUBY_VERSION
   end
   duration = Time.now() - start_time
 puts "total time is #{duration} and count is #{count}"
-

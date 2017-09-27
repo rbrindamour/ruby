@@ -7,7 +7,7 @@ require 'digest/md5'
 hash = {}
 i = 0
 compare_dir = Array.new
-compare_dir = ["/media/pogoplug/Seagate Expansion Desk/top/Photos/Trisna/**/*.*"]
+compare_dir = ["/media/rodb/Seagate Backup Plus Drive/Soho/Vidoes/**/*.*","/mnt/sdb1/rodb/Documents/Soho/Vidoes/**/*.*"]
 compare_dir.each {|x| Dir.glob(x).each do |filename|
    i += 1
     if (i % 1000 == 0)
